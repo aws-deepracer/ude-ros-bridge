@@ -1,0 +1,9 @@
+ude_ros_server:
+  reset_mode: "manual"
+  game_over_cond: "any"
+  step_invoke_type: "wait_forever"
+  step_invoke_period: 120.0
+  num_agents: 1
+  port: 3003
+  compression: "no_compression"
+  timeout_wait: 60.0

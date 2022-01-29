@@ -1,0 +1,4 @@
+<launch>
+  <param name="test_module" value="."/>
+  <test test-name="ude_ros_env" pkg="ude_ros_env" type="pytest_runner.py" />
+</launch>
