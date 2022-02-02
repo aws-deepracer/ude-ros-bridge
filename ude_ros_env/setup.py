@@ -40,8 +40,6 @@ package_name = "ude_ros_env"
 # Declare minimal set for installation
 required_packages = [
     "setuptools",
-    "numpy>=1.20.0",
-    "pyarrow<=0.17.1",
     "flake8>=3.5,<4.0.0",
     "pytest-flake8==1.0.7",
     "pytest-pep257==0.0.5",
