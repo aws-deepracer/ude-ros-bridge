@@ -40,10 +40,13 @@ package_name = "ude_ros_env"
 # Declare minimal set for installation
 required_packages = [
     "setuptools",
+]
+
+test_packages = [
     "flake8>=3.5,<4.0.0",
     "pytest-flake8==1.0.7",
     "pytest-pep257==0.0.5",
-    "pytest-timeout==1.4.2"
+    "pytest-timeout==1.4.2",
 ]
 
 PACKAGE_IMPORT = generate_distutils_setup(
@@ -51,7 +54,8 @@ PACKAGE_IMPORT = generate_distutils_setup(
     version=read_version(),
     packages=find_packages(where=".", exclude="test"),
     package_dir={"": "."},
-    install_requires=required_packages
+    install_requires=required_packages,
+    tests_require=test_packages
 )
 
 setup(**PACKAGE_IMPORT)
