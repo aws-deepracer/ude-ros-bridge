@@ -3,10 +3,12 @@
     <arg name="config_file" default="$(find ude_ros_server)/config/params.yaml" />
     <arg name="private_key_file" default="" />
     <arg name="certificate_file" default="" />
+    <arg name="auth_key" default="" />
 
     <node name="ude_ros_server" pkg="ude_ros_server" type="ude_ros_server_node.py" output="screen" required="true" >
         <rosparam if="$(eval config_file!='')" command="load" file="$(arg config_file)" subst_value="true"/>
         <param name="private_key_file" value="$(arg private_key_file)" />
         <param name="certificate_file" value="$(arg certificate_file)" />
+        <param name="auth_key" value="$(arg auth_key)" />
     </node>
 </launch>

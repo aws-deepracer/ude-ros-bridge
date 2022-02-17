@@ -17,7 +17,8 @@
 #################################################################################
 """A class for UDE ROS Server."""
 
-import rospy
+from importlib import reload
+import logging
 import grpc
 
 from ude import (
@@ -40,6 +41,8 @@ from ude_ros_msgs.srv import (
     GetUDEServerConfigRequest, GetUDEServerConfigResponse,
 )
 
+import rospy
+
 
 class UDEROSServer(ROSEnvironmentObserverInterface):
     def __init__(self) -> None:
@@ -61,6 +64,7 @@ class UDEROSServer(ROSEnvironmentObserverInterface):
         # Secure channel configuration parameters.
         private_key_file = str(rospy.get_param('~private_key_file', ''))
         certificate_file = str(rospy.get_param('~certificate_file', ''))
+        auth_key = str(rospy.get_param('~auth_key', None))
         self.ude_ros_server_config = UDEROSServerConfig(reset_mode=reset_mode,
                                                         game_over_cond=game_over_cond,
                                                         step_invoke_type=step_invoke_type,
@@ -103,8 +107,10 @@ class UDEROSServer(ROSEnvironmentObserverInterface):
                                  "with private key ({}) and cert ({}): {}"
                 rospy.logerr(err_msg_format.format(private_key_file, certificate_file, ex))
 
+        if server_credentials and auth_key:
+            rospy.loginfo("[UDEROSServer] Starting secured channel with credentials and auth_key...")
         if server_credentials:
-            rospy.loginfo("[UDEROSServer] Starting secured channel...")
+            rospy.loginfo("[UDEROSServer] Starting secured channel with credentials...")
         else:
             rospy.loginfo("[UDEROSServer] Starting unsecured channel...")
 
@@ -117,8 +123,10 @@ class UDEROSServer(ROSEnvironmentObserverInterface):
                                     port=self.ude_ros_server_config.port,
                                     compression=self.ude_ros_server_config.compression,
                                     credentials=server_credentials,
+                                    auth_key=auth_key,
                                     timeout_wait=self.ude_ros_server_config.timeout_wait)
         self.ude_server.start()
+        rospy.loginfo("[UDEROSServer] Server started.")
 
     def print_config(self) -> None:
         """
@@ -205,5 +213,8 @@ if __name__ == '__main__':
     rospy.init_node(name="ude_ros_server",
                     anonymous=False,
                     log_level=rospy.INFO)
+    reload(logging)
+    logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO, datefmt='%I:%M:%S')
+
     _ = UDEROSServer()
     rospy.spin()

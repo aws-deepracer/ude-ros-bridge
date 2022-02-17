@@ -63,6 +63,7 @@ class UDEROSServerNodeTest(TestCase):
                                                 port=ANY,
                                                 compression=ANY,
                                                 credentials=ANY,
+                                                auth_key=ANY,
                                                 timeout_wait=ANY)
         ude_server_mock.return_value.start.assert_called_once()
 
