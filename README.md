@@ -1,17 +1,10 @@
-## My Project
+## UDE ROS Bridge
 
-TODO: Fill this README out!
-
-Be sure to:
-
-* Change the title in this README
-* Edit your repository description on GitHub
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+The UDE ROS Bridge package is a bridge implementation of Unified Distributed Environment (UDE) to provide the integration between UDE and ROS. 
 
 ## License
 
-This project is licensed under the Apache-2.0 License.
+The source code is released under [Apache 2.0](https://aws.amazon.com/apache-2-0/).
 
+## Resources
+* [Unified Distributed Environment](https://github.com/aws-deepracer/ude)
