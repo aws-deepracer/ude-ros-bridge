@@ -1,6 +1,6 @@
 ## UDE ROS Environment
 
-The UDE ROS Environment package is a part of ROS bridge implementation of Unified Distributed Environment (UDE) to provide the integration between UDE and ROS. 
+The UDE ROS Environment package is a part of ROS bridge implementation of the Unified Distributed Environment (UDE) that provides integration between UDE and ROS. 
 
 ## License
 
