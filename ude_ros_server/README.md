@@ -1,6 +1,6 @@
 ## UDE ROS Server
 
-The UDE ROS Server package is a part of ROS bridge implementation of Unified Distributed Environment (UDE) to provide the integration between UDE and ROS. 
+The UDE ROS Server package is a part of ROS bridge implementation of the Unified Distributed Environment (UDE) that provides the integration between UDE and ROS. 
 
 ## License
 
