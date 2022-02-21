@@ -1,6 +1,6 @@
 ## UDE ROS Bridge
 
-The UDE ROS Bridge package is a bridge implementation of Unified Distributed Environment (UDE) to provide the integration between UDE and ROS. 
+The UDE ROS Bridge package is a bridge implementation of the Unified Distributed Environment (UDE) that provides integration between UDE and ROS. 
 
 ## License
 
