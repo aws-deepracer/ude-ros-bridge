@@ -22,7 +22,7 @@ import logging
 import grpc
 
 from ude import (
-    UDEEnvironment, UDEServer,
+    UDEEnvironment, UDEServer, UDEResetResult,
     UDEStepInvokeType,
     UDEResetMode,
     UDE_COMM_DEFAULT_PORT,
@@ -190,13 +190,13 @@ class UDEROSServer(ROSEnvironmentObserverInterface):
 
     def on_reset(self,
                  adapter: UDEEnvironmentAdapterInterface,
-                 observation_data: MultiAgentDict) -> None:
+                 reset_result: UDEResetResult) -> None:
         """
         Callback handler to update the config during the environment reset.
 
         Args:
             adapter (UDEEnvironmentAdapterInterface): the environment adapter
-            observation_data (MultiAgentDict): new observation data.
+            reset_result (UDEResetResult): first observation and info in new episode.
         """
         self.ude_ros_server_config = self.ude_ros_server_config_target.copy()
 

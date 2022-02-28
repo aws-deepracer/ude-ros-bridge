@@ -91,13 +91,15 @@ class ROSEnvironmentNodeTest(TestCase):
 
     def test_reset(self, ros_env_mock, rospy_mock, ros_env_side_channel_mock):
         obs = {"1": "obs"}
-        ros_env_mock.return_value.reset.return_value = obs
+        info = {"info"}
+        reset_data = (obs, info)
+        ros_env_mock.return_value.reset.return_value =reset_data
 
         ros_env_node = ROSEnvironment(env=ros_env_mock())
         response = ros_env_node.reset_callback(UDEResetSrvRequest())
 
         expected_response_msg = UDEResetSrvResponse()
-        expected_response_msg.data = bytes(self._context.serialize(obs).to_buffer())
+        expected_response_msg.data = bytes(self._context.serialize(reset_data).to_buffer())
 
         assert response == expected_response_msg
 

@@ -21,6 +21,7 @@ from ude import (
     UDEEnvironmentAdapterInterface,
     MultiAgentDict,
     UDEStepResult,
+    UDEResetResult,
     UDESerializationContext,
     Discrete
 )
@@ -49,9 +50,9 @@ class DummyObserver(ROSEnvironmentObserverInterface):
 
     def on_reset(self,
                  adapter: UDEEnvironmentAdapterInterface,
-                 observation_data: MultiAgentDict):
+                 reset_result: UDEResetResult):
         self.mock.on_reset(adapter=adapter,
-                           observation_data=observation_data)
+                           reset_result=reset_result)
 
     def on_close(self, adapter: UDEEnvironmentAdapterInterface):
         self.mock.on_close(adapter=adapter)
@@ -123,14 +124,17 @@ class ROSEnvironmentAdapterTest(TestCase):
             service_proxy_wrapper_mock.side_effect = self._service_proxy_mock
 
             expected_observation = {"agent1": [42, 43]}
-            serialized_obj = bytes(self._context.serialize(expected_observation).to_buffer())
+            expected_info = {"info"}
+            expected_reset_result = (expected_observation, expected_info)
+            serialized_obj = bytes(self._context.serialize(expected_reset_result).to_buffer())
             response = UDEResetSrvResponse(data=serialized_obj)
             self._reset_cli_mock_obj.return_value = response
 
             adapter = ROSEnvironmentAdapter()
-            obs = adapter.reset()
+            obs, info = adapter.reset()
             self._reset_cli_mock_obj.assert_called_once()
             assert obs == expected_observation
+            assert expected_info == info
 
     def test_close(self, rospy_mock, service_proxy_wrapper_mock):
         with patch("ude_ros_server.ros_environment_adapter.ROSSideChannel"):
@@ -169,18 +173,20 @@ class ROSEnvironmentAdapterTest(TestCase):
             service_proxy_wrapper_mock.side_effect = self._service_proxy_mock
 
             expected_observation = {"agent1": [42, 43]}
-            serialized_obj = bytes(self._context.serialize(expected_observation).to_buffer())
+            expected_info = {"info"}
+            expected_reset_result = (expected_observation, expected_info)
+            serialized_obj = bytes(self._context.serialize(expected_reset_result).to_buffer())
             response = UDEResetSrvResponse(data=serialized_obj)
             self._reset_cli_mock_obj.return_value = response
 
             adapter = ROSEnvironmentAdapter()
             observer = DummyObserver()
             adapter.register(observer)
-            obs = adapter.reset()
+            obs, info = adapter.reset()
             self._reset_cli_mock_obj.assert_called_once()
-            assert obs == expected_observation
+            assert (obs, info) == expected_reset_result
             observer.mock.on_reset.assert_called_once_with(adapter=adapter,
-                                                           observation_data=obs)
+                                                           reset_result=(obs, info))
 
     def test_close_with_observer(self, rospy_mock, service_proxy_wrapper_mock):
         with patch("ude_ros_server.ros_environment_adapter.ROSSideChannel"):

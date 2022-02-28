@@ -119,8 +119,8 @@ class ROSEnvironment:
             UDEResetSrvResponse: reset response message
         """
         rospy.logdebug("[ROSEnvironment] reset_callback")
-        obs = self.env.reset()
-        serialized_obj = bytes(self._context.serialize(obs).to_buffer())
+        reset_result = self.env.reset()
+        serialized_obj = bytes(self._context.serialize(reset_result).to_buffer())
         response = UDEResetSrvResponse()
         response.data = serialized_obj
         rospy.logdebug("[ROSEnvironment] reset_callback [DONE]")

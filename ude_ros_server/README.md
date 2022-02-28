@@ -8,4 +8,3 @@ The source code is released under [Apache 2.0](https://aws.amazon.com/apache-2-0
 
 ## Resources
 * [Unified Distributed Environment](https://github.com/aws-deepracer/ude)
-

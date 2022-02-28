@@ -20,7 +20,7 @@ from gym import Space
 
 from ude import (
     UDEEnvironmentAdapterInterface,
-    MultiAgentDict, UDEStepResult,
+    MultiAgentDict, UDEStepResult, UDEResetResult,
     AbstractSideChannel, AgentID,
     UDESerializationContext
 )
@@ -58,13 +58,13 @@ class ROSEnvironmentObserverInterface:
 
     def on_reset(self,
                  adapter: UDEEnvironmentAdapterInterface,
-                 observation_data: MultiAgentDict):
+                 reset_result: UDEResetResult):
         """
         Callback on reset
 
         Args:
             adapter (UDEEnvironmentAdapterInterface): environment adapter.
-            observation_data (MultiAgentDict): first observation data
+            reset_result (UDEResetResult): first observation and info in new episode.
         """
         pass
 
@@ -156,24 +156,24 @@ class ROSEnvironmentAdapter(UDEEnvironmentAdapterInterface):
         rospy.logdebug("[ROSEnvironmentAdapter] step [DONE]")
         return cast(UDEStepResult, step_data)
 
-    def reset(self) -> MultiAgentDict:
+    def reset(self) -> UDEResetResult:
         """
         Reset the environment and start new episode.
         Also, returns the first observation for new episode started.
 
         Returns:
-            MultiAgentDict: first observation in new episode.
+            UDEResetResult: first observation and info in new episode.
         """
         rospy.logdebug("[ROSEnvironmentAdapter] reset")
         res = self._reset_cli(UDEResetSrvRequest())
-        obs = self._context.deserialize(bytes(res.data))
+        reset_data = self._context.deserialize(bytes(res.data))
         with self._observer_lock:
             observers = self._observers.copy()
         for observer in observers:
             observer.on_reset(adapter=self,
-                              observation_data=obs)
+                              reset_result=reset_data)
         rospy.logdebug("[ROSEnvironmentAdapter] reset [DONE]")
-        return cast(MultiAgentDict, obs)
+        return cast(UDEResetResult, reset_data)
 
     def close(self) -> None:
         """

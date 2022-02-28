@@ -17,7 +17,7 @@
 import abc
 from typing import Dict
 
-from ude import UDEStepResult, MultiAgentDict, AgentID, Space
+from ude import UDEStepResult, UDEResetResult, MultiAgentDict, AgentID, Space
 
 # Python 2 and 3 compatible Abstract class
 ABC = abc.ABCMeta('ABC', (object,), {})
@@ -43,13 +43,13 @@ class ROSEnvironmentInterface(ABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def reset(self) -> MultiAgentDict:
+    def reset(self) -> UDEResetResult:
         """
         Reset the environment and start new episode.
         Also, returns the first observation for new episode started.
 
         Returns:
-            MultiAgentDict: first observation in new episode.
+            UDEResetResult: first observation and info in new episode.
         """
         raise NotImplementedError()
 

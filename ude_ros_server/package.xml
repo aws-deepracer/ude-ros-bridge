@@ -4,7 +4,7 @@
   <name>ude_ros_server</name>
   <author>Amazon Web Services</author>
   <version>0.1.0</version>
-  <description>This package contains UDE ROS Server node.</description>
+  <description>The server part of UDE-ROS bridge implementation to provide the integration between UDE and ROS.</description>
   <maintainer email="aws-deepracer@amazon.com">AWS DeepRacer</maintainer>
   <license>Apache License 2.0</license>
 
