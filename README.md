@@ -1,3 +1,5 @@
+## We have made a difficult decision of ceasing active development on this repo as of Jul 2022.
+
 ## UDE ROS Bridge
 
 The UDE ROS Bridge package is a bridge implementation of the Unified Distributed Environment (UDE) that provides integration between UDE and ROS. 
